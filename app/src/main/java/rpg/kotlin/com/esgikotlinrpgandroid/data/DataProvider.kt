@@ -1,12 +1,14 @@
 package data
 
 import data.model.*
+import rpg.kotlin.com.esgikotlinrpgandroid.data.model.*
 
 object DataProvider {
 
-  lateinit var dungeon : Dungeon
+  lateinit var dungeon: Dungeon
+  lateinit var currentWeapon: Weapon
 
-  fun initDungeon() : Dungeon {
+  fun initDungeon(): Dungeon {
     dungeon = Dungeon(rooms = prepareDungeonRooms())
     return dungeon
   }
@@ -33,13 +35,27 @@ object DataProvider {
     room2.northRoom = endingRoom
 
     return mapOf(
-      RoomName.STARTING_ROOM to startingRoom,
-      RoomName.ROOM_1 to room1,
-      RoomName.ROOM_2 to room2,
-      RoomName.ROOM_3 to room3,
-      RoomName.ROOM_4 to room4,
-      RoomName.ENDING_ROOM to endingRoom
+        RoomName.STARTING_ROOM to startingRoom,
+        RoomName.ROOM_1 to room1,
+        RoomName.ROOM_2 to room2,
+        RoomName.ROOM_3 to room3,
+        RoomName.ROOM_4 to room4,
+        RoomName.ENDING_ROOM to endingRoom
     )
+  }
+
+  fun prepareListOfWeapons(): List<Weapon> {
+    val list: MutableList<Weapon> = mutableListOf()
+    list.add(Dagger())
+    list.add(Sword())
+    list.add(Axe())
+    list.add(Bow())
+    list.add(MagicWand())
+    return list
+  }
+
+  fun saveWeapon(weapon: Weapon) {
+    currentWeapon = weapon
   }
 
 }

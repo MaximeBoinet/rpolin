@@ -1,11 +1,15 @@
 package rpg.kotlin.com.esgikotlinrpgandroid.module.game
 
+import android.app.Activity
+import android.app.AlertDialog
+import android.content.Intent
 import android.os.Handler
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import android.widget.Toast
+import data.model.Player
 import data.model.Room
 import data.model.RoomName
-import data.model.Weapon
 import kotlinx.android.synthetic.main.activity_game.*
 import kotlinx.android.synthetic.main.merge_header_game_view.*
 import module.GameInterface
@@ -14,6 +18,7 @@ import rpg.kotlin.com.esgikotlinrpgandroid.R
 import rpg.kotlin.com.esgikotlinrpgandroid.data.model.Message
 import rpg.kotlin.com.esgikotlinrpgandroid.misc.hideKeyboard
 import rpg.kotlin.com.esgikotlinrpgandroid.module.common.BaseActivity
+import rpg.kotlin.com.esgikotlinrpgandroid.module.weapons.WeaponsActivity
 
 class GameActivity : BaseActivity(layoutRes = R.layout.activity_game), GameInterface {
 
@@ -38,6 +43,8 @@ class GameActivity : BaseActivity(layoutRes = R.layout.activity_game), GameInter
     }
 
     game_validate_btn.setOnClickListener { presenter.onValidateEntryClick(game_profile_edt.text.toString()) }
+
+    game_continue_btn.setOnClickListener { presenter.onContinueClick() }
 
     game_map_btn.setOnClickListener {
       presenter.onMapClick()
@@ -92,6 +99,8 @@ class GameActivity : BaseActivity(layoutRes = R.layout.activity_game), GameInter
 
   override fun displayStartQuestPositiveAnswer() {
     displayMessage(Message(message = getString(R.string.start_quest_yes)))
+    game_footer_group.visibility = View.INVISIBLE
+    game_continue_btn.visibility = View.VISIBLE
   }
 
   override fun displayStartQuestNegativeAnswer() {
@@ -103,16 +112,42 @@ class GameActivity : BaseActivity(layoutRes = R.layout.activity_game), GameInter
   }
 
   override fun displayDungeonInformation(dungeonName: String) {
-    displayMessage(Message(message = getString(R.string.first_foot_in_dungeon, dungeonName)))
+    //displayMessage(Message(message = getString(R.string.first_foot_in_dungeon, dungeonName)))
+
+    val dialogBuilder = AlertDialog.Builder(this)
+    with(dialogBuilder)
+    {
+      setTitle(getString(R.string.congratulation))
+      setMessage(getString(R.string.first_foot_in_dungeon, dungeonName))
+      setPositiveButton(getString(R.string.ok_btn)) { dialog, _ ->
+        presenter.onPositiveDialogClick()
+        dialog.dismiss()
+      }
+      setCancelable(false)
+      show()
+    }
   }
 
-  override fun choosePlayerWeaponInformation(weapons: Array<Weapon>) {
+  override fun choosePlayerWeaponInformation() {
+    Intent(this, WeaponsActivity::class.java)
+        .also { startActivityForResult(it, PICK_WEAPON_REQUEST) }
+  }
+
+  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    if (requestCode == PICK_WEAPON_REQUEST && resultCode == Activity.RESULT_OK) {
+      presenter.playerHasChosenHisWeapon()
+    }
   }
 
   override fun displayWeaponGameMasterMessage(weaponName: String) {
+    displayMessage(Message(message = getString(R.string.game_master_weapon_comment, weaponName)))
   }
 
-  override fun displayPlayerAreIn() {
+  override fun displayPlayerIsIn(player: Player) {
+    game_player_name_txv.text = player.pseudo
+    game_life_point_txv.text = player.healthPoint.toString()
+    game_weapon_imv.setImageResource(player.weapon.icon)
+    displayMessage(Message(message = getString(R.string.player_is_in)))
   }
 
   override fun displayPossibleDirection(room: Room) {
@@ -164,12 +199,21 @@ class GameActivity : BaseActivity(layoutRes = R.layout.activity_game), GameInter
   }
 
   override fun displayNextCourse() {
-    Toast.makeText(this, "La suite au prochain cours soldat ! \nAiguise ton arme en attendant ;)", Toast.LENGTH_SHORT).show()
+    Toast.makeText(
+        this,
+        "La suite au prochain cours soldat ! \nAiguise ton arme en attendant ;)",
+        Toast.LENGTH_SHORT
+    )
+        .show()
   }
-  //endregion
+//endregion
 
 
   private fun displayYesOrNoChoice() {
     displayMessage(Message(message = getString(R.string.yes_or_no_choice)))
+  }
+
+  companion object {
+    const val PICK_WEAPON_REQUEST = 1
   }
 }

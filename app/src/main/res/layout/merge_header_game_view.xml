@@ -4,24 +4,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="@layout/activity_game">
 
+  <TextView
+      android:id="@+id/game_player_name_txv"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="8dp"
+      android:layout_marginTop="8dp"
+      android:gravity="center_vertical"
+      android:textColor="@color/colorPrimaryDark"
+      android:textStyle="bold"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:text="Gandalf le bordeau" />
+
   <android.support.v7.widget.AppCompatTextView
       android:id="@+id/game_life_point_txv"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
+      android:layout_marginBottom="8dp"
+      android:layout_marginTop="8dp"
       android:drawablePadding="8dp"
       android:drawableStart="@drawable/ic_life"
       android:gravity="center_vertical"
-      android:padding="10dp"
+      android:paddingStart="10dp"
       app:layout_constraintBottom_toBottomOf="@+id/game_view_separator"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      android:text="@string/player_life_point" />
+      app:layout_constraintTop_toBottomOf="@+id/game_player_name_txv"
+      tools:text="@string/player_life_point" />
 
   <android.support.v7.widget.AppCompatImageView
       android:id="@+id/game_weapon_imv"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
+      android:layout_width="48dp"
+      android:layout_height="48dp"
       android:padding="10dp"
+      app:layout_constraintBottom_toTopOf="@+id/game_view_separator"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
@@ -34,6 +50,7 @@
       android:foreground="?android:attr/selectableItemBackground"
       android:padding="10dp"
       android:src="@drawable/ic_map"
+      app:layout_constraintBottom_toTopOf="@+id/game_view_separator"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,9 +58,10 @@
       android:id="@+id/game_view_separator"
       android:layout_width="0dp"
       android:layout_height="1dp"
+      android:layout_marginTop="8dp"
       android:background="@android:color/black"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/game_map_btn" />
+      app:layout_constraintTop_toBottomOf="@+id/game_life_point_txv" />
 
 </merge>
