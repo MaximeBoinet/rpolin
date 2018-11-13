@@ -19,5 +19,22 @@
   <string name="start_quest_no">Hum, tu es sûr ? la légende dit qu\'il y aurait une épée sacrée cachée dans ce Donjon...</string>
   <string name="start_quest_bad_answer">Hum, Hum, ce n\'est pas une bonne réponse</string>
 
-  <string name="first_foot_in_dungeon">"Vous venez de pénétrer dans le donjon de %s ! \nN'hésite pas à jeter un oeil à la carte !</string>
+  <string name="first_foot_in_dungeon">Vous venez de pénétrer dans le donjon de %s ! \nN\'hésite pas à jeter un oeil à la carte !</string>
+  <string name="congratulation">Félicitation !</string>
+  <string name="ok_btn">OK</string>
+
+
+  <string name="choose_weapon_information">Avant toute chose tu vas devoir choisir une arme !</string>
+
+  <string name="game_master_weapon_comment">Hum, je n\'aurais jamais choisi une %s</string>
+
+  <string name="player_is_in">Je vois que tu es fin prêt !\nUn sac d\'os dans une armure, l\'arme à la main  et le regard dur, je me souviendrai de toi gamin...Bref bonne chance! \n\nAppuie sur continuer pour commencer l\'exploration !</string>
+
+  <string name="continue_btn">Continuer</string>
+  <string name="nb_of_arrow">%d flêches dans votre carquois</string>
+  <string name="nb_of_magic_damage">%d dégâts de magie supplémentaire</string>
+
+  <string name="weapon_details">* id : %1$s \n* name : %2$s \n* Bonus : %3$s</string>
+
+
 </resources>

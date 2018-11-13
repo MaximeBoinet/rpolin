@@ -34,22 +34,31 @@
       android:textSize="16sp"
       app:layout_constraintBottom_toTopOf="@+id/game_validate_btn"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent" />
+      app:layout_constraintStart_toStartOf="parent"
+      tools:visibility="invisible" />
 
   <Button
       android:id="@+id/game_validate_btn"
-      android:layout_width="0dp"
-      android:layout_height="wrap_content"
       android:layout_marginBottom="8dp"
-      android:layout_marginEnd="8dp"
-      android:layout_marginStart="8dp"
       android:background="@color/colorPrimary"
       android:text="@string/validate"
-      android:textColor="@color/white"
-      android:textSize="18sp"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent" />
+      tools:visibility="invisible"
+      style="@style/GameButton" />
 
+  <android.support.constraint.Group
+      android:id="@+id/game_footer_group"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      app:constraint_referenced_ids="game_profile_edt, game_validate_btn" />
+
+
+  <Button
+      android:id="@+id/game_continue_btn"
+      android:background="@color/colorAccent"
+      android:text="@string/continue_btn"
+      android:visibility="gone"
+      app:layout_constraintTop_toTopOf="@+id/game_profile_edt"
+      tools:visibility="gone"
+      style="@style/GameButton" />
 
 </android.support.constraint.ConstraintLayout>

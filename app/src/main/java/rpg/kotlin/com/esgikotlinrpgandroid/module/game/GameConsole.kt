@@ -68,8 +68,8 @@ class GameConsole(private val presenter: GamePresenter) : GameInterface {
   override fun choosePlayerWeaponInformation(weapons: Array<Weapon>) {
     println("Avant toute chose tu vas devoir choisir une arme !")
 
-    for (weapon: Weapon in weapons) {
-      if (weapon != Weapon.NONE) println("'${weapon.id}' --> ${weapon.weaponName}")
+    for (weaponChoice: Weapon in weapons) {
+      if (weaponChoice != Weapon.NONE) println("'${weaponChoice.id}' --> ${weaponChoice.weaponName}")
     }
 
     println("Quel est ton choix ?")
@@ -97,7 +97,7 @@ class GameConsole(private val presenter: GamePresenter) : GameInterface {
     println("Hum, je n'aurais jamais choisi une $weaponName\n")
   }
 
-  override fun displayPlayerAreIn() {
+  override fun displayPlayerIsIn() {
     println("Te voilà rentré dans le donjon...")
   }
 

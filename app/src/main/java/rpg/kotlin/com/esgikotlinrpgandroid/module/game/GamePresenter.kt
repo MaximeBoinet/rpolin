@@ -2,16 +2,16 @@ package module
 
 import data.DataProvider
 import data.model.*
-import data.model.exception.WeaponException
 import rpg.kotlin.com.esgikotlinrpgandroid.data.model.Message
 import rpg.kotlin.com.esgikotlinrpgandroid.data.model.UserType
+import rpg.kotlin.com.esgikotlinrpgandroid.data.model.Weapon
 import rpg.kotlin.com.esgikotlinrpgandroid.misc.Constant
 import rpg.kotlin.com.esgikotlinrpgandroid.module.common.BasePresenter
 
 class GamePresenter(private val view: GameInterface) : BasePresenter() {
 
   private lateinit var pseudo: String
-  private var currentWeapon: Weapon? = null
+  private lateinit var currentWeapon: Weapon
 
   private lateinit var player: Player
   private lateinit var dungeon: Dungeon
@@ -21,6 +21,7 @@ class GamePresenter(private val view: GameInterface) : BasePresenter() {
 
   private var leaveTheGame = false
   private var winTheGame = false
+  private var hasChooseWeapon = false
 
 
   private lateinit var currentPlayerAnswer: String
@@ -40,14 +41,11 @@ class GamePresenter(private val view: GameInterface) : BasePresenter() {
         triggerStoryLineAction()
       }
       StoryLine.START_QUEST -> view.displayStartQuestMessage()
-      StoryLine.DUNGEON_INFORMATION -> {
-        view.displayDungeonInformation(dungeon.name)
-        triggerStoryLineAction()
-      }
-      StoryLine.CHOOSE_WEAPON -> {
-        view.displayNextCourse()
-        //view.choosePlayerWeaponInformation(Weapon.values())
-      }
+      StoryLine.ANSWER_QUEST -> view.displayStartQuestPositiveAnswer()
+      StoryLine.DUNGEON_INFORMATION -> view.displayDungeonInformation(dungeon.name)
+      StoryLine.CHOOSE_WEAPON -> view.choosePlayerWeaponInformation()
+      StoryLine.CONFIGURE_PLAYER -> view.displayPlayerIsIn(player)
+      StoryLine.START_EXPLORATION -> view.displayNextCourse()
     }
   }
 
@@ -60,8 +58,12 @@ class GamePresenter(private val view: GameInterface) : BasePresenter() {
       }
       StoryLine.PLAYER_PSEUDO -> updateStoryLine()
       StoryLine.START_QUEST -> prepareStarQuest()
+      StoryLine.ANSWER_QUEST -> updateStoryLine()//
       StoryLine.DUNGEON_INFORMATION -> updateStoryLine()
-      StoryLine.CHOOSE_WEAPON -> {}
+      StoryLine.CHOOSE_WEAPON -> if (hasChooseWeapon) initPlayer()
+      StoryLine.CONFIGURE_PLAYER -> updateStoryLine()
+      StoryLine.START_EXPLORATION -> {
+      }
     }
 
     manageStoryLine()
@@ -78,8 +80,8 @@ class GamePresenter(private val view: GameInterface) : BasePresenter() {
   private fun prepareStarQuest() {
     when {
       Constant.YES.contains(currentPlayerAnswer) -> {
-        view.displayStartQuestPositiveAnswer()
         prepareDungeon()
+        //START_QUEST --> ANSWER_QUEST
         updateStoryLine()
       }
       Constant.NO.contains(currentPlayerAnswer) -> view.displayStartQuestNegativeAnswer()
@@ -92,7 +94,18 @@ class GamePresenter(private val view: GameInterface) : BasePresenter() {
     currentRoom = dungeon.rooms[RoomName.STARTING_ROOM]!!
   }
 
-  fun playerChooseWeapon(weaponChoice: Int) {
+  fun onPositiveDialogClick() {
+    triggerStoryLineAction()
+  }
+
+  fun playerHasChosenHisWeapon() {
+    hasChooseWeapon = true
+    currentWeapon = DataProvider.currentWeapon
+    view.displayWeaponGameMasterMessage(currentWeapon.weaponName)
+    triggerStoryLineAction()
+  }
+
+/*  fun playerChooseWeapon(weaponChoice: Int) {
     currentWeapon = Weapon.getById(weaponChoice)
 
     when (currentWeapon) {
@@ -103,16 +116,16 @@ class GamePresenter(private val view: GameInterface) : BasePresenter() {
         startDungeon()
       }
     }
-  }
+  }*/
 
   private fun initPlayer() {
     player = Player(
         pseudo = pseudo,
         healthPoint = 100,
-        weapon = currentWeapon!!,
+        weapon = currentWeapon,
         items = mutableListOf()
     )
-    view.displayPlayerAreIn()
+    updateStoryLine()
   }
 
   private fun startDungeon() {
@@ -224,16 +237,21 @@ class GamePresenter(private val view: GameInterface) : BasePresenter() {
 
   fun onMapClick() {
     // todo : Here you can start your tp :)
+  }
 
-
+  fun onContinueClick() {
+    triggerStoryLineAction()
   }
 
   enum class StoryLine {
     WELCOME_TO_THE_GAME,
     PLAYER_PSEUDO,
     START_QUEST,
+    ANSWER_QUEST,
     DUNGEON_INFORMATION,
-    CHOOSE_WEAPON;
+    CHOOSE_WEAPON,
+    CONFIGURE_PLAYER,
+    START_EXPLORATION;
 
     companion object {
       fun getNextStoryLinePoint(point: StoryLine): StoryLine {
