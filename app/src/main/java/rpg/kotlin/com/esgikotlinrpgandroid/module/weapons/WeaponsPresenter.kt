@@ -10,23 +10,23 @@ import rpg.kotlin.com.esgikotlinrpgandroid.module.common.BasePresenter
  */
 class WeaponsPresenter(private val view: WeaponsInterface) : BasePresenter() {
 
-  private var choosingWeapon: Weapon? = null
+    private var choosingWeapon: Weapon? = null
 
-  override fun onCreated() {
-    super.onCreated()
-    view.fillWeaponsList(DataProvider.prepareListOfWeapons())
-  }
-
-  fun onWeaponClick(weapon: Weapon) {
-    choosingWeapon = weapon
-    view.fillWeaponDetailsView(weapon)
-  }
-
-  fun onValidateClick() {
-    choosingWeapon?.let {
-      DataProvider.saveWeapon(it)
-      view.handleValidateAction()
+    override fun onCreated() {
+        super.onCreated()
+        view.fillWeaponsList(DataProvider.prepareListOfWeapons())
     }
-  }
+
+    fun onWeaponClick(weapon: Weapon) {
+        choosingWeapon = weapon
+        view.fillWeaponDetailsView(weapon)
+    }
+
+    fun onValidateClick() {
+        choosingWeapon?.let {
+            DataProvider.saveWeapon(it)
+            view.handleValidateAction()
+        }
+    }
 
 }

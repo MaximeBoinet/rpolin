@@ -7,7 +7,7 @@ import rpg.kotlin.com.esgikotlinrpgandroid.data.model.Weapon
  *
  */
 interface WeaponsInterface {
-  fun fillWeaponsList(weapons: List<Weapon>)
-  fun fillWeaponDetailsView(weapon: Weapon)
-  fun handleValidateAction()
+    fun fillWeaponsList(weapons: List<Weapon>)
+    fun fillWeaponDetailsView(weapon: Weapon)
+    fun handleValidateAction()
 }

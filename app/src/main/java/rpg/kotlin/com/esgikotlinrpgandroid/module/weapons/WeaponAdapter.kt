@@ -10,37 +10,38 @@ import rpg.kotlin.com.esgikotlinrpgandroid.R
 import rpg.kotlin.com.esgikotlinrpgandroid.data.model.Weapon
 import rpg.kotlin.com.esgikotlinrpgandroid.misc.inflate
 
-class WeaponAdapter(private var weaponListener: (Weapon) -> Unit) : RecyclerView.Adapter<WeaponAdapter.WeaponViewHolder>() {
+class WeaponAdapter(private var weaponListener: (Weapon) -> Unit) :
+    RecyclerView.Adapter<WeaponAdapter.WeaponViewHolder>() {
 
-  private var weapons: List<Weapon> = mutableListOf()
+    private var weapons: List<Weapon> = mutableListOf()
 
-  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeaponViewHolder {
-    return WeaponViewHolder(parent.inflate(R.layout.item_weapon))
-  }
-
-  override fun getItemCount() = weapons.size
-
-
-  override fun onBindViewHolder(holder: WeaponViewHolder, position: Int) {
-    val weapon = weapons[position]
-
-    with(holder) {
-      picto.setImageResource(weapon.icon)
-      name.text = weapon.weaponName
-
-      container.setOnClickListener { weaponListener.invoke(weapon) }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeaponViewHolder {
+        return WeaponViewHolder(parent.inflate(R.layout.item_weapon))
     }
-  }
 
-  fun fillWeaponsList(weapons: List<Weapon>) {
-    this.weapons = weapons
-    notifyDataSetChanged()
-  }
+    override fun getItemCount() = weapons.size
 
 
-  inner class WeaponViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    var container: View = view.weapon_container
-    var picto: ImageView = view.weapon_picto_imv
-    var name: TextView = view.weapon_name_txv
-  }
+    override fun onBindViewHolder(holder: WeaponViewHolder, position: Int) {
+        val weapon = weapons[position]
+
+        with(holder) {
+            picto.setImageResource(weapon.icon)
+            name.text = weapon.weaponName
+
+            container.setOnClickListener { weaponListener.invoke(weapon) }
+        }
+    }
+
+    fun fillWeaponsList(weapons: List<Weapon>) {
+        this.weapons = weapons
+        notifyDataSetChanged()
+    }
+
+
+    inner class WeaponViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        var container: View = view.weapon_container
+        var picto: ImageView = view.weapon_picto_imv
+        var name: TextView = view.weapon_name_txv
+    }
 }
