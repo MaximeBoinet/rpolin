@@ -43,7 +43,6 @@ interface GameInterface {
 
     //noob
     fun displayMap()
-
     fun notifyNoMapYet()
 
     //temporary

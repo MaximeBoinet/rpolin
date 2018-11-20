@@ -201,12 +201,13 @@ class GameActivity : BaseActivity(layoutRes = R.layout.activity_game), GameInter
 
     override fun displayMap() {
         Intent(this, MapActivity::class.java)
+            .also { startActivity(it) }
     }
 
     override fun notifyNoMapYet() {
         Toast.makeText(
             this,
-            "Tu es devant la porte, ne me dit pas que tu es déjà perdu?",
+            "Ne me dit pas que tu es déjà perdu? Tu es devant la porte...",
             Toast.LENGTH_SHORT
         ).show()
     }
@@ -227,6 +228,5 @@ class GameActivity : BaseActivity(layoutRes = R.layout.activity_game), GameInter
 
     companion object {
         const val PICK_WEAPON_REQUEST = 1
-        const val SHOW_MAP = 2
     }
 }
